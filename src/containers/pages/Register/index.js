@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 // import firebase from "../../../config/firebase/index";
-import "./register.scss";
 import Button from "../../../components/atoms/Button";
 import { registerUserApi } from "../../../config/redux/action";
-// import "./register.scss";
+import "./register.scss";
 class Register extends Component {
   state = {
     email: "",

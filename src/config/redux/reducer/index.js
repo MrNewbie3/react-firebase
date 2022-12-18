@@ -2,7 +2,8 @@ const initialState = {
   popup: false,
   isLogin: false,
   isLoading: false,
-  user: "Undefined",
+  user: {},
+  ontes:[]
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -25,6 +26,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: action.value,
+      };
+    case "SET_NOTES":
+      return {
+        ...state,
+        notes: action.value,
       };
     default:
       return state;

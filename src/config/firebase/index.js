@@ -17,9 +17,9 @@ const firebaseConfig = {
   messagingSenderId: "199227989984",
   appId: "1:199227989984:web:c6fa31302b1770ad591585",
   measurementId: "G-C9BHKC528Z",
+  databaseURL: "https://react-firebase-8a48e-default-rtdb.asia-southeast1.firebasedatabase.app",
 };
 
-// Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
 export const database = getDatabase(app);
 export const auth = getAuth(app);

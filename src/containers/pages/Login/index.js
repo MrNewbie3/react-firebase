@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../components/atoms/Button";
-import "./login.scss";
 import { loginUserApi } from "../../../config/redux/action";
 function Login(props) {
   const [email, setEmail] = useState("");

@@ -1,4 +1,7 @@
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { onValue, push, ref, set } from "firebase/database";
+import { database } from "../../firebase";
+
 export const actionChangeUserName = () => {
   return (dispatch) => {
     setTimeout(() => {
@@ -32,6 +35,7 @@ export const loginUserApi = (data) => async (dispatch) => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
+        localStorage.setItem("userData", JSON.stringify(user));
         const userInfo = {
           email: userCredential.user.email,
           uid: userCredential.user.uid,
@@ -53,5 +57,44 @@ export const loginUserApi = (data) => async (dispatch) => {
         reject(false);
       });
     // Signed in
+  });
+};
+
+export const addDataToApi = (data) => (dispatch) => {
+  push(ref(database, "notes/" + data.userID), {
+    title: data.title,
+    content: data.content,
+    date: data.date,
+  });
+};
+
+export const getDataFromApi = (userId) => (dispatch) => {
+  const urlNotes = ref(database, "notes/" + userId);
+  return new Promise((resolve, reject) => {
+    onValue(urlNotes, (snapshot) => {
+      const data = snapshot.val();
+      const dataToArray = [];
+      Object.keys(snapshot.val()).map((key) => {
+        dataToArray.push({
+          id: key,
+          data: snapshot.val()[key],
+        });
+      });
+
+      dispatch({ type: "SET_NOTES", value: dataToArray });
+      resolve(snapshot.val);
+    });
+  });
+};
+export const updateDataApi = (data) => (dispatch) => {
+  const urlNotes = ref(database, `notes/${data.userID}/${data.noteId}`);
+  return new Promise((resolve, reject) => {
+    set(urlNotes, { title: data.title, content: data.content, date: data.date }, (err) => {
+      if (err) {
+        reject(false);
+      } else {
+        resolve(true);
+      }
+    });
   });
 };
